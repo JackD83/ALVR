@@ -7,8 +7,7 @@ use alvr_common::{
     audio::{self, AudioDeviceType},
     data::{
         AudioDeviceId, ClientConfigPacket, ClientControlPacket, CodecType, FrameSize,
-        HeadsetInfoPacket, OpenvrConfig, PlayspaceSyncPacket, ServerControlPacket, Version,
-        ALVR_VERSION,
+        HeadsetInfoPacket, OpenvrConfig, PlayspaceSyncPacket, ServerControlPacket, ALVR_VERSION,
     },
     logging,
     prelude::*,
@@ -20,6 +19,7 @@ use alvr_common::{
 };
 use futures::future::{BoxFuture, Either};
 use nalgebra::Translation3;
+use semver::Version;
 use settings_schema::Switch;
 use std::{
     future,
@@ -475,7 +475,7 @@ async fn connection_pipeline() -> StrResult {
         .await?;
 
     if version
-        .map(|v| v >= Version::from((15, 1, 0)))
+        .map(|v| v >= Version::from_str("15.1.0").unwrap())
         .unwrap_or(false)
     {
         match control_receiver.recv().await {
