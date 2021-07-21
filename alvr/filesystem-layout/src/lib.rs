@@ -25,7 +25,7 @@ impl Layout {
         if cfg!(windows) {
             self.openvr_driver_dir
                 .join("bin/win64/driver_alvr_server.dll")
-        } else if cfg!(target_os = "linux"){
+        } else if cfg!(target_os = "linux") {
             self.openvr_driver_dir
                 .join("bin/linux64/driver_alvr_server.so")
         } else {
