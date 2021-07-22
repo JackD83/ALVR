@@ -6,7 +6,7 @@ use alvr_common::{
     data::{
         ClientConfigPacket, ClientControlPacket, ClientHandshakePacket, CodecType,
         HeadsetInfoPacket, PlayspaceSyncPacket, PrivateIdentity, ServerControlPacket,
-        ServerHandshakePacket, SessionDesc, TrackingSpace, Version, ALVR_NAME, ALVR_VERSION,
+        ServerHandshakePacket, SessionDesc, TrackingSpace, ALVR_NAME, ALVR_VERSION,
     },
     prelude::*,
     sockets::{PeerType, ProtoControlSocket, StreamSocketBuilder, LEGACY},
@@ -18,6 +18,7 @@ use jni::{
     JavaVM,
 };
 use nalgebra::{Point2, Point3, Quaternion, UnitQuaternion};
+use semver::Version;
 use serde_json as json;
 use settings_schema::Switch;
 use std::{
@@ -214,7 +215,7 @@ async fn connection_pipeline(
 
     let version = Version::from_str(&config_packet.reserved).ok();
     if version
-        .map(|v| v >= Version::from((15, 1, 0)))
+        .map(|v| v >= Version::from_str("15.1.0").unwrap())
         .unwrap_or(false)
     {
         if let Err(e) = control_sender
